@@ -251,6 +251,12 @@ explore: payment {
     sql_on: ${film.language_id} = ${language.language_id} ;;
     relationship: many_to_one
   }
+
+  join: pdt_sort_category {
+    type: left_outer
+    sql_on: ${category.name} = ${pdt_sort_category.category} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: rental {
