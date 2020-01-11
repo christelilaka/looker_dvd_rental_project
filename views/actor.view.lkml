@@ -36,4 +36,24 @@ view: actor {
     type: count
     drill_fields: [actor_id, last_name, first_name, actor_info.count, film_actor.count]
   }
+
+  measure: dataTest {
+    hidden: yes
+    type: number
+    sql: ${count}/10 ;;
+  }
+}
+
+# ---- Data Test ---
+
+test: is_count_greater {
+  explore_source: actor {
+    column: count {
+      field: actor.count
+    }
+    column: dataTest {field: actor.dataTest}
+  }
+  assert: count_is_expected {
+    expression: ${actor.count} > ${actor.dataTest} ;;
+  }
 }
