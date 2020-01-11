@@ -24,6 +24,7 @@ explore: actor {
   }
 }
 
+
 explore: actor_info {
   join: actor {
     type: left_outer
@@ -48,15 +49,8 @@ explore: address {
 
 explore: category {}
 
-explore: city {
-  join: country {
-    type: left_outer
-    sql_on: ${city.country_id} = ${country.country_id} ;;
-    relationship: many_to_one
-  }
-}
+explore: city {}
 
-explore: country {}
 
 explore: customer {
   join: address {
@@ -94,19 +88,23 @@ explore: film {
   }
 }
 
+
+# to put in the film_actor explore
+#join: actor {
+  #type: left_outer
+  #sql_on: ${film_actor.actor_id} = ${actor.actor_id} ;;
+ # relationship: many_to_one
+#}
+
 explore: film_actor {
+  label: "Film actor base"
+  view_name: film_actor
+  view_label: "Film Label Test"
   join: film {
     type: left_outer
     sql_on: ${film_actor.film_id} = ${film.film_id} ;;
     relationship: many_to_one
   }
-
-  join: actor {
-    type: left_outer
-    sql_on: ${film_actor.actor_id} = ${actor.actor_id} ;;
-    relationship: many_to_one
-  }
-
   join: language {
     type: left_outer
     sql_on: ${film.language_id} = ${language.language_id} ;;
@@ -114,7 +112,24 @@ explore: film_actor {
   }
 }
 
+explore: extended_film_actor {
+  label: "Extended explore"
+  extends: [film_actor]
+  join: actor {
+    sql_on: ${film_actor.actor_id} = ${actor.actor_id};;
+    type: left_outer
+    relationship: many_to_one
+  }
+}
+
+#
+
+
+
+
+
 explore: film_category {
+  view_name: film_category
   join: category {
     type: left_outer
     sql_on: ${film_category.category_id} = ${category.category_id} ;;
@@ -134,7 +149,9 @@ explore: film_category {
   }
 }
 
-explore: film_list {}
+#explore: film_list {}
+explore: film_list {
+}
 
 explore: inventory {
   join: store {

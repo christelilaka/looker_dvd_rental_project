@@ -34,6 +34,11 @@ view: payment {
     sql: ${TABLE}."payment_date" ;;
   }
 
+  dimension: date_sting {
+    type: string
+    sql: TO_CHAR(${payment_date}, 'YYYY-MM-DD') ;;
+  }
+
   dimension: rental_id {
     type: number
     # hidden: yes
@@ -51,9 +56,38 @@ view: payment {
     drill_fields: [detail*]
   }
 
+  # ---- Test Jan 11 ===
+
+
+  measure: is_total_less {
+    type: yesno
+    sql: ${total_amount} < 4 ;;
+    html: {% if value == "Yes" %}
+            <p style="color: black; background-color: lightgreen; font-size:100%; text-align:center">{{ rendered_value }}</p>
+          {% else %}
+            <p style="color: black; background-color: #d63031; font-size:100%; text-align:center">{{ rendered_value }}</p>
+          {% endif %}
+    ;;
+  }
+
+
+  # ---- End Test ------
+
   measure: total_amount {
     type: sum
     sql: ${amount} ;;
+    drill_fields: [payment_date, amount]
+    link: {
+      label: "Drill into an Area Chart"
+      url: "{% assign vis_config = '{\"type\": \"looker_area\", \"interpolation\": \"monotone\",
+      \"series_colors\": { \"payment.amount\": \"#667085\"} }' %}
+      {{ link }}&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis&limit=5000"
+      icon_url: "https://looker.com/favicon.ico"
+    }
+    link: {
+      label: "New explore"
+      url: "https://self-signed.looker.com:9999/looks/24?f[payment.payment_month_name] = { _filters['payment.payment_month_name'] | url_encode }}"
+    }
   }
 
   measure: regular_sum {
@@ -64,6 +98,11 @@ view: payment {
   measure: type_number_sum {
     type: number
     sql: SUM(${amount}) ;;
+  }
+
+  measure: coalese_sum {
+    type: number
+    sql: SUM(Coalesce(${amount},0)) ;;
   }
 
 
