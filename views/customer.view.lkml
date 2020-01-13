@@ -54,6 +54,11 @@ view: customer {
     sql: ${TABLE}."last_name" ;;
   }
 
+  dimension: full_name {
+    type: string
+    sql: ${first_name} || ' ' || ${last_name} ;;
+  }
+
   dimension_group: last_update {
     type: time
     timeframes: [

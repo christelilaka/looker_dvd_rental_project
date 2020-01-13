@@ -13,6 +13,12 @@ view: payment {
     sql: ${TABLE}."amount" ;;
   }
 
+  dimension: average {
+    type: number
+    sql: round(avg(${amount}) over(PARTITION BY ${customer_id} ORDER BY ${payment_date} ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING), 2)
+    ;;
+  }
+
   dimension: customer_id {
     type: number
     # hidden: yes
@@ -53,7 +59,14 @@ view: payment {
 
   measure: count {
     type: count
-    drill_fields: [detail*]
+    drill_fields: [payment_date, count]
+    link: {
+      label: "Drill into an Area Chart"
+      url: "{% assign vis_config = '{\"type\": \"looker_area\", \"interpolation\": \"monotone\",
+      \"series_colors\": { \"payment.count\": \"#576574\"} }' %}
+      {{ link }}&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis&limit=5000"
+      icon_url: "https://looker.com/favicon.ico"
+    }
   }
 
   # ---- Test Jan 11 ===
@@ -80,7 +93,7 @@ view: payment {
     link: {
       label: "Drill into an Area Chart"
       url: "{% assign vis_config = '{\"type\": \"looker_area\", \"interpolation\": \"monotone\",
-      \"series_colors\": { \"payment.amount\": \"#667085\"} }' %}
+      \"series_colors\": { \"payment.payment_date\": \"#576574\"} }' %}
       {{ link }}&vis_config={{ vis_config | encode_uri }}&toggle=dat,pik,vis&limit=5000"
       icon_url: "https://looker.com/favicon.ico"
     }

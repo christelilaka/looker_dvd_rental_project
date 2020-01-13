@@ -274,6 +274,13 @@ explore: payment {
     sql_on: ${category.name} = ${pdt_sort_category.category} ;;
     relationship: many_to_one
   }
+
+  join: pdt_moving_avg {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${payment.customer_id} = ${pdt_moving_avg.customer_id}
+          AND ${payment.payment_date} = ${pdt_moving_avg.payment_date};;
+  }
 }
 
 explore: rental {
