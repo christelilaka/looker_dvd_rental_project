@@ -35,6 +35,7 @@ view: rental {
   }
 
   dimension_group: rental {
+    #allow_fill: no
     type: time
     timeframes: [
       raw,

@@ -1,5 +1,7 @@
 view: pdt_moving_avg {
   derived_table: {
+    persist_for: "2 hours"
+    indexes: ["customer_id"]
     sql:
         SELECT
               customer_id,

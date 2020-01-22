@@ -1,6 +1,8 @@
 explore: pdt_sort_category {}
 view: pdt_sort_category {
   derived_table: {
+    persist_for: "24 hours"
+    indexes: ["category"]
     sql:
         SELECT
           category.name AS category,

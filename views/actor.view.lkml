@@ -9,6 +9,7 @@ view: actor {
   }
 
   dimension: first_name {
+    label: "{% if _view._name == 'actor' %} first_name {% else %} Ninja_first_name {% endif %} "
     type: string
     sql: ${TABLE}."first_name" ;;
   }
@@ -16,6 +17,11 @@ view: actor {
   dimension: last_name {
     type: string
     sql: ${TABLE}."last_name" ;;
+  }
+
+  dimension: is_fName_in_last_name {
+    type: yesno
+    sql: ${first_name} IN (SELECT ${last_name} FROM ${TABLE}) ;;
   }
 
   dimension_group: last_update {

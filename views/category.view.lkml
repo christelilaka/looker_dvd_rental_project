@@ -27,6 +27,11 @@ view: category {
     sql: ${TABLE}."name" ;;
   }
 
+  measure: list_name {
+    type: list
+    list_field: name
+  }
+
   measure: count {
     type: count
     drill_fields: [category_id, name, film_category.count]
