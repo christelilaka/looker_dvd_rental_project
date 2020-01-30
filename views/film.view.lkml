@@ -11,6 +11,17 @@ view: film {
       WHERE {% condition rented_date %} r.rental_date {% endcondition %});;
   }
 
+  dimension: was_lenght_more_than_120min {
+    type: yesno
+    sql: ${length}>120 ;;
+  }
+
+  dimension: was_cost_less_than_15 {
+    type: yesno
+    sql: ${replacement_cost}<15 ;;
+  }
+
+
   filter: rented_date {
     type: date
   }

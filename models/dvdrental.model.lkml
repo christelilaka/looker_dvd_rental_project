@@ -245,6 +245,12 @@ explore: payment {
     relationship: many_to_one
   }
 
+  join: pdt_ndt_top_10_category_rental {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${category.name} = ${pdt_ndt_top_10_category_rental.category_name} ;;
+  }
+
   join: address {
     type: left_outer
     sql_on: ${store.address_id} = ${address.address_id} ;;

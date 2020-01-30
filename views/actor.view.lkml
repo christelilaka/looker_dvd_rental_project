@@ -3,6 +3,7 @@ view: actor {
   drill_fields: [actor_id]
 
   dimension: actor_id {
+    hidden: yes
     primary_key: yes
     type: number
     sql: ${TABLE}."actor_id" ;;

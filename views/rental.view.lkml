@@ -2,6 +2,9 @@ view: rental {
   sql_table_name: public.rental ;;
   drill_fields: [rental_id]
 
+  filter: date_try {
+    type: date_time
+  }
   dimension: rental_id {
     primary_key: yes
     type: number
@@ -62,6 +65,24 @@ view: rental {
       year
     ]
     sql: ${TABLE}."return_date" ;;
+  }
+
+
+  dimension_group: duration_rental {
+    type: duration
+    intervals: [day, week]
+    sql_start:  ${rental_date};;
+    sql_end: ${return_date} ;;
+  }
+
+  measure: average_duration {
+    type: average
+    sql: ${days_duration_rental} ;;
+  }
+
+  measure: sum_duration {
+    type: sum
+    sql: ${days_duration_rental} ;;
   }
 
   dimension: staff_id {
