@@ -119,6 +119,44 @@ view: payment {
     sql: SUM(Coalesce(${amount},0)) ;;
   }
 
+  #----- BOX PLOT VIZ ---------
+  measure: min {
+    group_label: "Box Plot Viz"
+    type: min
+    sql: ${amount} ;;
+    value_format_name: usd
+  }
+
+  measure: 25th_percentile {
+    group_label: "Box Plot Viz"
+    type: percentile
+    percentile: 25
+    sql: ${amount} ;;
+    value_format_name: usd
+  }
+
+  measure: median {
+    group_label: "Box Plot Viz"
+    type: median
+    sql: ${amount} ;;
+    value_format_name: usd
+  }
+
+  measure: 75th_percentile {
+    group_label: "Box Plot Viz"
+    type: percentile
+    percentile: 75
+    sql: ${amount} ;;
+    value_format_name: usd
+  }
+
+  measure: max {
+    group_label: "Box Plot Viz"
+    type: max
+    sql: ${amount} ;;
+    value_format_name: usd
+  }
+
 
 
 
