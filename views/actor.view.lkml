@@ -44,6 +44,10 @@ view: actor {
     drill_fields: [actor_id, last_name, first_name, actor_info.count, film_actor.count]
   }
 
+  measure: count_2 {
+    type: count
+  }
+
   measure: dataTest {
     hidden: yes
     type: number

@@ -87,7 +87,7 @@ view: payment {
   # ---- End Test ------
 
   measure: total_amount {
-    value_format_name: "usd"
+    value_format_name: "eur"
     type: sum
     sql: ${amount} ;;
     drill_fields: [payment_date, amount]
