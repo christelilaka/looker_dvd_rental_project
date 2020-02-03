@@ -12,6 +12,11 @@ persist_with: dvdrental_default_datagroup
 
 #explore: actor {}
 
+map_layer: us_canada_region {
+  file: "new_us_canada.topojson"
+  property_key: "province"
+}
+
 explore: actor {
   view_label: "Actor base"
 
