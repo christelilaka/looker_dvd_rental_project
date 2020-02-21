@@ -5,7 +5,6 @@ include: "/views/**/*.view"
 
 datagroup: dvd_cache {
   sql_trigger: SELECT CURRENT_DATE ;;
-  max_cache_age: "24 hours"
 }
 
 persist_with: dvd_cache
