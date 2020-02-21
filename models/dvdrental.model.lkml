@@ -3,12 +3,12 @@ connection: "postgres"
 # include all the views
 include: "/views/**/*.view"
 
-datagroup: dvdrental_default_datagroup {
-  # sql_trigger: SELECT MAX(id) FROM etl_log;;
-  max_cache_age: "1 hour"
+datagroup: dvd_cache {
+  sql_trigger: SELECT CURRENT_DATE ;;
+  max_cache_age: "24 hours"
 }
 
-persist_with: dvdrental_default_datagroup
+persist_with: dvd_cache
 
 #explore: actor {}
 
@@ -16,6 +16,8 @@ map_layer: us_canada_region {
   file: "new_us_canada.topojson"
   property_key: "province"
 }
+
+explore: pdt__map {}
 
 explore: actor {
   view_label: "Actor base"

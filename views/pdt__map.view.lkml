@@ -1,8 +1,7 @@
-explore: pdt__map {}
 view: pdt__map {
   derived_table:{
     publish_as_db_view: yes
-    sql_trigger_value: 1 ;;
+    datagroup_trigger: dvd_cache
     indexes: ["province"]
     sql:
       WITH mytable(province,count) AS
