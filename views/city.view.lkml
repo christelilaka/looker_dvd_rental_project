@@ -35,6 +35,7 @@ view: city {
 
   measure: count {
     type: count
-    drill_fields: [city_id, country.country_id, address.count]
+    drill_fields: [city_id, country.country_id, city, address.count]
+    link: {label: "Drill down" url:"{{link}}&f[city.city]=Adana"}
   }
 }

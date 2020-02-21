@@ -106,7 +106,7 @@ view: payment {
 
   measure: regular_sum {
     type: sum
-    sql: ${amount} ;;
+    sql: COALESCE(${amount},0) ;;
   }
 
   measure: type_number_sum {
@@ -155,6 +155,19 @@ view: payment {
     type: max
     sql: ${amount} ;;
     value_format_name: usd
+  }
+
+  # --- Feb 18 ----------
+  measure: running_payment_total_row {
+    type: running_total
+    sql: ${amount} ;;
+    direction: "row"
+  }
+
+  measure: running_payment_total_column {
+    type: running_total
+    sql: ${amount} ;;
+    direction: "column"
   }
 
 

@@ -17,6 +17,15 @@ view: rental {
     sql: ${TABLE}."customer_id" ;;
   }
 
+  #==== Danielle's Chat review=======
+  dimension: test_customer {
+    type: yesno
+    sql:
+        (WITH table1 AS (SELECT ${customer_id} AS cust_id, COUNT(${customer_id}) AS count_dim
+          FROM ${TABLE}
+          GROUP BY ${customer_id}) SELECT count_dim FROM table1 WHERE ${customer_id} = table1.cust_id)=12 ;;
+  }
+
   dimension: inventory_id {
     type: number
     # hidden: yes
@@ -44,6 +53,7 @@ view: rental {
       raw,
       time,
       date,
+      day_of_week,
       week,
       month,
       month_name,
@@ -94,7 +104,11 @@ view: rental {
   measure: count {
     type: count
     drill_fields: [detail*]
+    #link: {label: "link url" url:"{{link}}&f[staff.staff_id]=not+1&sorts=customer.last_name+asc"}
   }
+
+  #"{{ count_id._link}}&sorts=order_items.sale_price+desc" }
+
 
   # ----- Sets of fields for drilling ------
   set: detail {

@@ -13,6 +13,10 @@ view: actor {
     label: "{% if _view._name == 'actor' %} first_name {% else %} Ninja_first_name {% endif %} "
     type: string
     sql: ${TABLE}."first_name" ;;
+    link: {
+      label: "To the dashboard"
+      url: "https://self-signed.looker.com:9999/dashboards/10"
+    }
   }
 
   dimension: last_name {
@@ -42,6 +46,7 @@ view: actor {
   measure: count {
     type: count
     drill_fields: [actor_id, last_name, first_name, actor_info.count, film_actor.count]
+    link: {label: "Drill down" url:"{{link}}&f[actor.last_name]=Pesci,Paltrow"}
   }
 
   measure: count_2 {

@@ -1,7 +1,8 @@
 explore: pdt__map {}
 view: pdt__map {
   derived_table:{
-    persist_for: "250 hours"
+    publish_as_db_view: yes
+    sql_trigger_value: 1 ;;
     indexes: ["province"]
     sql:
       WITH mytable(province,count) AS
