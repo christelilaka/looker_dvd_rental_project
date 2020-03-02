@@ -14,8 +14,13 @@ view: pdt_sort_category {
         LEFT JOIN film ON inventory.film_id = film.film_id
         LEFT JOIN film_category ON film.film_id = film_category.film_id
         LEFT JOIN category ON film_category.category_id = category.category_id
+        WHERE {% condition category_filter %} category.name {% endcondition %}
         GROUP BY 1
     ;;
+  }
+
+  filter: category_filter {
+    type: string
   }
 
   dimension: category {

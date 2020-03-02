@@ -27,6 +27,15 @@ view: category {
     sql: ${TABLE}."name" ;;
   }
 
+  filter: filtered_category {
+    type: string
+  }
+
+  dimension: selected_category {
+    type: yesno
+    sql:{% condition filtered_category %} ${name} {% endcondition %};;
+  }
+
   measure: list_name {
     type: list
     list_field: name
