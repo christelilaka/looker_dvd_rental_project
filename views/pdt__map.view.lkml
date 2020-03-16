@@ -1,8 +1,7 @@
 view: pdt__map {
   derived_table:{
-    publish_as_db_view: yes
-    datagroup_trigger: dvd_cache
-    indexes: ["province"]
+    #publish_as_db_view: yes
+    #datagroup_trigger: dvd_cache
     sql:
       WITH mytable(province,count) AS
 (SELECT 'BC' AS province,5 AS count

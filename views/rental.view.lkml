@@ -18,13 +18,6 @@ view: rental {
   }
 
   #==== Danielle's Chat review=======
-  dimension: test_customer {
-    type: yesno
-    sql:
-        (WITH table1 AS (SELECT ${customer_id} AS cust_id, COUNT(${customer_id}) AS count_dim
-          FROM ${TABLE}
-          GROUP BY ${customer_id}) SELECT count_dim FROM table1 WHERE ${customer_id} = table1.cust_id)=12 ;;
-  }
 
   dimension: inventory_id {
     type: number
@@ -61,6 +54,16 @@ view: rental {
       year
     ]
     sql: ${TABLE}."rental_date" ;;
+  }
+
+  dimension: min_date_test {
+    type:  string
+    sql:  MIN(rental_date);;
+  }
+
+  measure: min_rental_date {
+    type: string
+    sql: MIN(${TABLE}."rental_date") ;;
   }
 
   dimension_group: return {
@@ -106,6 +109,15 @@ view: rental {
     drill_fields: [detail*]
     #link: {label: "link url" url:"{{link}}&f[staff.staff_id]=not+1&sorts=customer.last_name+asc"}
   }
+
+# ---- Test March 15 (ticker: #288379) -----
+
+  measure: count_plus_ten {
+    type: number
+    sql: ${count}+10 ;;
+  }
+
+
 
   #"{{ count_id._link}}&sorts=order_items.sale_price+desc" }
 

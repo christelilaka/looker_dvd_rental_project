@@ -69,6 +69,34 @@ view: payment {
     }
   }
 
+  # ---- Test March 15 (ticker: #288379) -----
+
+  parameter: select_aggregation {
+    type: string
+    allowed_value: {value: "count" label: "count" }
+    allowed_value: {value: "count_plus_ten" label: "Count plus 10"}
+  }
+
+  measure: count_plus_ten {
+    type: number
+    sql: ${count}+10 ;;
+  }
+
+  measure: final_aggregation {
+    type: number
+    sql:
+        {% if select_aggregation._parameter_value == "'count'" %}
+          ${count}*1
+        {% elsif select_aggregation._parameter_value == "'count_plus_ten'" %}
+          ${count_plus_ten}*1
+        {% else %}
+          ${count}*0
+        {% endif %}
+    ;;
+  }
+
+
+
   # ---- Test Jan 11 ===
 
 
@@ -103,6 +131,7 @@ view: payment {
       url: "https://self-signed.looker.com:9999/looks/24?f[payment.payment_month_name] = { _filters['payment.payment_month_name'] | url_encode }}"
     }
   }
+
 
   measure: regular_sum {
     type: sum

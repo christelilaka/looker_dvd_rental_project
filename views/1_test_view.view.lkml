@@ -1,4 +1,59 @@
 explore: pdt_feb_dates {}
+explore: pdt_case_when {}
+
+view: pdt_case_when {
+  derived_table: {
+    sql:
+        WITH text_table(name, total) AS (
+          SELECT 'Project / Engagement' AS name, 1 as total
+          UNION ALL SELECT 'Order / Subscription', 0
+          UNION ALL SELECT 'Other', 1
+          UNION ALL SELECT 'Missing', 1
+        )
+        SELECT name, total FROM text_table
+    ;;
+  }
+  dimension: name {type: string }
+
+#   dimension: total {
+#     type: yesno
+#     sql:${TABLE}.total = 1 ;;
+#     }
+
+  dimension: total {
+    type: number
+    sql:${TABLE}.total ;;
+  }
+
+  measure: sum_total {
+    type: sum
+    sql: ${total} ;;
+  }
+
+  dimension: need_segment {
+    type: string
+    case: {
+      when: {
+        sql: ${TABLE}.name='Project / Engagement' ;;
+        label: "Project / Engagement"
+      }
+      when: {
+        sql: ${TABLE}.name='Order / Subscription' ;;
+        label: "Order / Subscription"
+      }
+      when: {
+        sql: ${TABLE}.name='Other' ;;
+        label: "Other"
+      }
+      when: {
+        sql: ${TABLE}.name='Missing' ;;
+        label: "Missing"
+      }
+    }
+  }
+}
+
+
 view: pdt_feb_dates {
   derived_table: {
     indexes: ["dates"]
@@ -24,7 +79,6 @@ view: pdt_feb_dates {
   parameter: hours_filter {
     type: number
     description: "Enter hour like 23 for 11pm or 10 for 10am"}
-
 
   dimension: date_before{
     type: yesno
