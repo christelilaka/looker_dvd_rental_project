@@ -25,6 +25,15 @@ view: payment {
     sql: ${TABLE}."customer_id" ;;
   }
 
+  filter: select_date {
+    type: date_time
+  }
+
+  dimension: is_okayDate {
+    type: yesno
+    sql: {% condition select_date %} ${payment_date} {% endcondition %};;}
+
+
   dimension_group: payment {
     type: time
     timeframes: [
@@ -71,11 +80,11 @@ view: payment {
 
   # ---- Test March 15 (ticker: #288379) -----
 
-  parameter: select_aggregation {
-    type: string
-    allowed_value: {value: "count" label: "count" }
-    allowed_value: {value: "count_plus_ten" label: "Count plus 10"}
-  }
+  # parameter: select_aggregation {
+  #   type: string
+  #   allowed_value: {value: "count" label: "count" }
+  #   allowed_value: {value: "count_plus_ten" label: "Count plus 10"}
+  # }
 
   measure: count_plus_ten {
     type: number
@@ -85,15 +94,21 @@ view: payment {
   measure: final_aggregation {
     type: number
     sql:
-        {% if select_aggregation._parameter_value == "'count'" %}
+        CASE
+        WHEN {% parameter rental.select_aggregation %} = 'count' THEN
           ${count}*1
-        {% elsif select_aggregation._parameter_value == "'count_plus_ten'" %}
+          WHEN {% parameter rental.select_aggregation %} = 'count_plus_ten' THEN
           ${count_plus_ten}*1
-        {% else %}
+        ELSE
           ${count}*0
-        {% endif %}
+        END
     ;;
   }
+
+  # dimension: help_select {
+  #   type: string
+  #   sql: {% parameter select_aggregation %};;
+  # }
 
 
 

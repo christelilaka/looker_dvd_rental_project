@@ -1,5 +1,5 @@
 view: actor {
-  sql_table_name: public.actor ;;
+  sql_table_name: public.actor;;
   drill_fields: [actor_id]
 
   dimension: actor_id {
@@ -50,8 +50,28 @@ view: actor {
   }
 
   measure: count_2 {
-    type: count
+    type: number
+    value_format: "$#,##0"
+    link: {label:"test" url:"{{link}}"}
+    sql: 1 ;;
+
   }
+
+  measure: total_labor_dollars {
+    type: number
+    value_format: "$#,##0"
+    link: {label: "Test" url: "{{link}}"}
+    sql: 1 ;;
+#     link: {
+#       label: "Total Labor by Punch Status"
+#       url: "{{link}}&fields=restaurants.name,time_punches.total_open_labor_dollars,time_punches.total_closed_labor_dollars,time_punches.total_future_labor_dollars"
+#     }
+#     link: {label: "Total Sales by Channel & Order Type" url: "{{link}}&fields=restaurants.name"}
+#     link:  {label: "Test" url: "{{link}}" }
+
+  }
+
+
 
   measure: dataTest {
     hidden: yes

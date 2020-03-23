@@ -104,13 +104,42 @@ view: rental {
     sql: ${TABLE}."staff_id" ;;
   }
 
-  measure: count {
+
+
+
+  measure: count_without_drill {
     type: count
-    drill_fields: [detail*]
-    #link: {label: "link url" url:"{{link}}&f[staff.staff_id]=not+1&sorts=customer.last_name+asc"}
   }
 
+  measure: count {
+    type: count
+    drill_fields: [short*]
+  link: {label: "Drill with HTML" url:"{{link}}&f[staff.staff_id]=not+1&sorts=category.name+asc"}
+    html:
+    {% if value >= 6000 %}
+        <div style="background-color: #0b9353;color: white;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
+    {% elsif 1500 <= value < 6000 %}
+        <div style="background-color: #ede979;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
+    {% elsif value < 1500 %}
+        <div style="background-color: #ff9f80;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
+    {% endif %} ;;
+  }
+
+  # --- Set test ----
+  set: short {
+    fields: [rental_date, category.name, payment.regular_sum, count_without_drill]
+  }
+
+
+
+
 # ---- Test March 15 (ticker: #288379) -----
+
+  parameter: select_aggregation {
+    type: string
+    allowed_value: {value: "count" label: "count" }
+    allowed_value: {value: "count_plus_ten" label: "Count plus 10"}
+  }
 
   measure: count_plus_ten {
     type: number
@@ -118,11 +147,22 @@ view: rental {
   }
 
 
-
-  #"{{ count_id._link}}&sorts=order_items.sale_price+desc" }
-
+  measure: final_aggregation {
+    type: number
+    sql:
+        {% if select_aggregation._parameter_value == "'count'" %}
+          ${count}*1
+        {% elsif select_aggregation._parameter_value == "'count_plus_ten'" %}
+          ${count_plus_ten}*1
+        {% else %}
+          ${count}*0
+        {% endif %}
+    ;;
+  }
 
   # ----- Sets of fields for drilling ------
+
+
   set: detail {
     fields: [
       rental_id,
