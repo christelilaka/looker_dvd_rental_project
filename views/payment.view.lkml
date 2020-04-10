@@ -29,9 +29,32 @@ view: payment {
     type: date_time
   }
 
+  dimension: rental_date {
+    type: date
+    sql: rental.last_update_date ;;
+  }
+
   dimension: is_okayDate {
     type: yesno
     sql: {% condition select_date %} ${payment_date} {% endcondition %};;}
+
+
+  dimension_group: try {
+    type: duration
+    sql_start: ${rental.last_update_date} ;;
+  sql_end: ${payment_date} ;;
+  intervals: [day, hour, minute]
+  }
+
+  measure: total_durat {
+    type: sum
+    sql: ${days_try} ;;
+  }
+
+  measure: average_dur {
+    type: number
+    sql: ${total_durat}/NULLIF(${count},0) ;;
+  }
 
 
   dimension_group: payment {
@@ -212,6 +235,26 @@ view: payment {
     type: running_total
     sql: ${amount} ;;
     direction: "column"
+  }
+
+  # --------- Apr 1, 2020 -----------
+  dimension: is_amount_less_4 {
+    type: yesno
+    sql: ${amount} < 4 ;;
+  }
+
+  dimension: is_amount_great_8 {
+    type: yesno
+    sql: ${amount}>8 ;;
+  }
+
+  dimension: amount_combined {
+    type: string
+    sql:
+        CASE WHEN ${is_amount_less_4} THEN 'Less Than 4'
+        WHEN ${is_amount_great_8} THEN 'Greater than 8'
+        ELSE 'Between 4 and 8 included' END
+    ;;
   }
 
 

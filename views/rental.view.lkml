@@ -2,13 +2,20 @@ view: rental {
   sql_table_name: public.rental ;;
   drill_fields: [rental_id]
 
-  filter: date_try {
-    type: date_time
+  parameter: namesearch {
+    type: string
+    suggest_explore: customer
+    suggest_dimension: customer.full_name_and_id
+    suggest_persist_for: "24 hours"
   }
-  dimension: rental_id {
-    primary_key: yes
-    type: number
-    sql: ${TABLE}."rental_id" ;;
+
+  dimension: filtered_name {
+    type: yesno
+    sql:
+        {% assign my_array = namesearch._parameter_value | remove: "'" | split: "-"  %}
+        {% assign the_id = my_array[0] %}
+        ${customer_id} = {{the_id}}
+    ;;
   }
 
   dimension: customer_id {
@@ -16,6 +23,18 @@ view: rental {
     # hidden: yes
     sql: ${TABLE}."customer_id" ;;
   }
+
+  filter: date_try {
+    type: date_time
+  }
+
+  dimension: rental_id {
+    primary_key: yes
+    type: number
+    sql: ${TABLE}."rental_id" ;;
+  }
+
+
 
   #==== Danielle's Chat review=======
 
@@ -33,6 +52,7 @@ view: rental {
       date,
       week,
       month,
+      week_of_year,
       quarter,
       year
     ]
@@ -115,14 +135,23 @@ view: rental {
     type: count
     drill_fields: [short*]
   link: {label: "Drill with HTML" url:"{{link}}&f[staff.staff_id]=not+1&sorts=category.name+asc"}
+#     html:
+#     {% if value >= 6000 %}
+#         <div style="background-color: #0b9353;color: white;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
+#     {% elsif 1500 <= value < 6000 %}
+#         <div style="background-color: #ede979;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
+#     {% elsif value < 1500 %}
+#         <div style="background-color: #ff9f80;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
+#     {% endif %} ;;
+
     html:
-    {% if value >= 6000 %}
-        <div style="background-color: #0b9353;color: white;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
-    {% elsif 1500 <= value < 6000 %}
-        <div style="background-color: #ede979;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
+     {% if value >= 6000 %}
+         <div style="padding:0; color: #0b9353;font-size:20px; text-align:center">●</div>
+     {% elsif 1500 <= value < 6000 %}
+         <div style="padding:0; color: #ede979;font-size:20px; text-align:center">●</div>
     {% elsif value < 1500 %}
-        <div style="background-color: #ff9f80;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
-    {% endif %} ;;
+         <div style="padding:0px; color: #ff9f80;font-size:20px; text-align:center">●</div>
+     {% endif %} ;;
   }
 
   # --- Set test ----

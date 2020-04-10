@@ -1,12 +1,19 @@
+
 view: actor {
   sql_table_name: public.actor;;
-  drill_fields: [actor_id]
+  #drill_fields: [actor_id]
 
   dimension: actor_id {
     #hidden: yes
     primary_key: yes
     type: number
     sql: ${TABLE}."actor_id" ;;
+  }
+
+  dimension: random {
+    type: number
+    sql: random() ;;
+    value_format_name: decimal_2
   }
 
   dimension: first_name {
@@ -19,9 +26,20 @@ view: actor {
     }
   }
 
+
   dimension: last_name {
     type: string
     sql: ${TABLE}."last_name" ;;
+  }
+
+
+  dimension: name_label {
+    type: string
+    sql: CASE
+              WHEN ${last_name} = 'Akroyd' THEN ' Label with space'
+              ELSE ${last_name}
+          END
+    ;;
   }
 
   dimension: is_fName_in_last_name {

@@ -21,7 +21,8 @@ map_layer: us_canada_region {
 
 explore: pdt__map {}
 
-
+explore: customer {}
+explore: rental {}
 
 explore: rental_payment {
   always_filter: {filters: {field: rental.select_aggregation value: "count"}}

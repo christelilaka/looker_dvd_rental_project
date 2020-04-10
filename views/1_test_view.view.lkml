@@ -54,6 +54,31 @@ view: pdt_case_when {
 }
 
 
+explore: pdt_names {}
+view: pdt_names {
+  derived_table: {
+    sql: WITH namestable (names) AS
+          (SELECT 'sale' AS names UNION ALL SELECT 'return')
+          SELECT names FROM namestable
+    ;;
+  }
+  dimension: names {}
+
+
+  parameter: demand_type_selector {
+    view_label: "Product Information"
+    #type: unquoted
+    allowed_value: { label: "Gross" value: "sale" }
+    allowed_value: { label: "Returns Only" value: "return" }
+    allowed_value: { label: "Net" value: "sale',return" }
+  }
+
+  dimension: param {
+    type: yesno
+    sql: ${names} IN ({%parameter demand_type_selector %}) ;;
+  }
+}
+
 view: pdt_feb_dates {
   derived_table: {
     indexes: ["dates"]

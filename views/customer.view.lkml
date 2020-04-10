@@ -8,6 +8,16 @@ view: customer {
     sql: ${TABLE}."customer_id" ;;
   }
 
+
+  dimension: full_name_and_id {
+    type: string
+    sql: ${customer_id} || '-' || ${first_name} || '-' || ${last_name}  ;;
+  }
+
+
+
+
+
   dimension: active {
     type: number
     sql: ${TABLE}."active" ;;
@@ -52,11 +62,6 @@ view: customer {
   dimension: last_name {
     type: string
     sql: ${TABLE}."last_name" ;;
-  }
-
-  dimension: full_name {
-    type: string
-    sql: ${first_name} || ' ' || ${last_name} ;;
   }
 
   dimension_group: last_update {
