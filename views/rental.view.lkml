@@ -135,23 +135,15 @@ view: rental {
     type: count
     drill_fields: [short*]
   link: {label: "Drill with HTML" url:"{{link}}&f[staff.staff_id]=not+1&sorts=category.name+asc"}
-#     html:
-#     {% if value >= 6000 %}
-#         <div style="background-color: #0b9353;color: white;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
-#     {% elsif 1500 <= value < 6000 %}
-#         <div style="background-color: #ede979;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
-#     {% elsif value < 1500 %}
-#         <div style="background-color: #ff9f80;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
-#     {% endif %} ;;
-
     html:
-     {% if value >= 6000 %}
-         <div style="padding:0; color: #0b9353;font-size:20px; text-align:center">●</div>
-     {% elsif 1500 <= value < 6000 %}
-         <div style="padding:0; color: #ede979;font-size:20px; text-align:center">●</div>
+    {% if value >= 6000 %}
+        <div style="background-color: #0b9353;color: white;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
+    {% elsif 1500 <= value < 6000 %}
+        <div style="background-color: #ede979;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
     {% elsif value < 1500 %}
-         <div style="padding:0px; color: #ff9f80;font-size:20px; text-align:center">●</div>
-     {% endif %} ;;
+        <div style="background-color: #ff9f80;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
+    {% endif %} ;;
+
   }
 
   # --- Set test ----
