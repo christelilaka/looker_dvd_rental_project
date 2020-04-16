@@ -64,6 +64,25 @@ view: 2_test_view_pdt {
     sql: TO_TIMESTAMP(${TABLE}.date, 'YYYY-MM-DD') ;;
   }
 
+  dimension_group: debut {
+    type: time
+    timeframes: [raw,date,year,month_num,month_name]
+    sql: TO_TIMESTAMP('2020-04-06', 'YYYY-MM-DD') ;;
+  }
+
+  dimension_group: fin {
+    type: time
+    timeframes: [raw,date,year,month_num,month_name]
+    sql: TO_TIMESTAMP('2020-04-10', 'YYYY-MM-DD') ;;
+  }
+
+  dimension_group: difference {
+    type: duration
+    intervals: [day, hour]
+    sql_start:${fin_date} ;;
+    sql_end: ${debut_date} ;;
+  }
+
   measure: total_quantity {
     type: sum
     sql: ${quantity} ;;

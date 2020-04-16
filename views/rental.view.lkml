@@ -70,11 +70,31 @@ view: rental {
       week,
       month,
       month_name,
+      month_num,
       quarter,
       year
     ]
     sql: ${TABLE}."rental_date" ;;
   }
+
+  #---- Added to Merge Dash ---------------
+  parameter: select_date_rental {
+    type: unquoted
+    allowed_value: {
+      label: "July"
+      value: "7"
+    }
+    allowed_value: {
+      label: "June"
+      value: "6"
+    }
+  }
+
+  dimension: is_parameter_okay {
+    type: yesno
+    sql: ${rental_month_num} = {% parameter select_date_rental %} ;;
+  }
+  #-------------------------------------
 
   dimension: min_date_test {
     type:  string

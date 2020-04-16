@@ -38,6 +38,7 @@ explore: rental_payment {
 
 
 explore: actor {
+  cancel_grouping_fields: [actor.last_name]
   view_label: "Actor base"
 
   join: ninja {
