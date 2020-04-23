@@ -67,6 +67,7 @@ view: rental {
       time,
       date,
       day_of_week,
+      day_of_week_index,
       week,
       month,
       month_name,
@@ -75,6 +76,18 @@ view: rental {
       year
     ]
     sql: ${TABLE}."rental_date" ;;
+  }
+
+  filter: lexi_ticket {type: date sql: {% condition lexi_ticket %} ${rental_date} {% endcondition %} ;;}
+
+  dimension: zendesk {
+    type: yesno
+    sql: {% condition lexi_ticket %} ${rental_date} {% endcondition %} ;;
+  }
+
+  measure: count_lexi_ticket {
+    type: count
+    filters: [zendesk: "yes"]
   }
 
   #---- Added to Merge Dash ---------------
