@@ -37,7 +37,6 @@ view: 4_pdt {
         (first_name VARCHAR (255));;
       sql_step: INSERT INTO looker_scratch.{{view_name._parameter_value}} (first_name)
         VALUES ('Christel Ilaka');;
-      sql_step: SELECT * FROM ${SQL_TABLE_NAME} ;;
     }
   }
   dimension: first_name {}
