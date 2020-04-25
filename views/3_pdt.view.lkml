@@ -13,7 +13,6 @@ view: 3_pdt {
         (first_name VARCHAR (255));;
       sql_step: INSERT INTO LOOKER_SCRATCH.zendesk_ticket (first_name)
                 VALUES ('Christel Ilaka');;
-      sql_step: SELECT * FROM LOOKER_SCRATCH.zendesk_ticket ;;
     }
   }
   dimension: first_name {}
@@ -30,7 +29,7 @@ view: 4_pdt {
     default_value: "ilaka"
   }
   derived_table: {
-    persist_for: "1 hour"
+    sql_trigger_value: SELECT DATE_PART('minute', NOW()) ;;
     create_process: {
       sql_step: DROP TABLE IF EXISTS looker_scratch.{{view_name._parameter_value}} ;;
       sql_step:
