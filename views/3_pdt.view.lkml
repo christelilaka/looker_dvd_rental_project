@@ -5,7 +5,7 @@ view: 3_pdt {
     default_value: "3_pdt"
   }
   derived_table: {
-    sql_trigger_value: SELECT DATE_PART('minute', NOW()) ;;
+    datagroup_trigger: chat
     create_process: {
       sql_step: DROP TABLE IF EXISTS LOOKER_SCRATCH.zendesk_ticket ;;
       sql_step:
@@ -29,7 +29,7 @@ view: 4_pdt {
     default_value: "ilaka"
   }
   derived_table: {
-    sql_trigger_value: SELECT DATE_PART('minute', NOW()) ;;
+    datagroup_trigger: chat
     create_process: {
       sql_step: DROP TABLE IF EXISTS looker_scratch.{{view_name._parameter_value}} ;;
       sql_step:

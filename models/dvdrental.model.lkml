@@ -8,6 +8,10 @@ datagroup: dvd_cache {
   max_cache_age: "5 minutes"
 }
 
+datagroup: chat {
+  sql_trigger: SELECT DATE_PART('day', NOW()) ;;
+}
+
 
 
 persist_with: dvd_cache
