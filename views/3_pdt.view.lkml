@@ -2,7 +2,7 @@ view: 3_pdt {
 
   parameter: view_name {
     type: unquoted
-    default_value: ""
+    default_value: "3_pdt"
   }
   derived_table: {
     sql_trigger_value: SELECT DATE_PART('minute', NOW()) ;;
@@ -24,7 +24,7 @@ view: 4_pdt {
 
   parameter: view_name {
     type: unquoted
-    default_value: ""
+    default_value: "4_pdt"
   }
   derived_table: {
     sql_trigger_value: SELECT DATE_PART('minute', NOW()) ;;
