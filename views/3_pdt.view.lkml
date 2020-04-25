@@ -20,7 +20,9 @@ view: 3_pdt {
 
  }
 
+explore: 3_pdt {}
 
+explore: 4_pdt {}
 view: 4_pdt {
 
   parameter: view_name {
