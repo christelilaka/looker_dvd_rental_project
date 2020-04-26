@@ -89,7 +89,17 @@ view: actor {
 
   }
 
+#--------- Liquid in filters ----------
+parameter: name_to_count {
+  type: unquoted
+  allowed_value: {label: "Dan" value: "Dan"}
+}
 
+measure: count_names {
+  type: count
+  #filters: [first_name: "{{name_to_count._parameter_value}}"]
+  filters: [first_name: "{% parameter name_to_count %}"]
+}
 
   measure: dataTest {
     hidden: yes

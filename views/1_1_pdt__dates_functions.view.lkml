@@ -35,19 +35,21 @@ view: dvd_rental {
 
   dimension: customer_name {}
 
-  dimension_group: rental_date {
+  dimension_group: rental {
+    group_label: "Dates"
     type: time
     timeframes: [date]
     sql: ${TABLE}.rental_date::date ;;
   }
 
-  dimension_group: returned_date {
+  dimension_group: returned {
+    group_label: "Dates"
     type: time
     timeframes: [date]
     sql: ${TABLE}.returned_date::date ;;
   }
 
   dimension: number_of_days {
-    sql: count_workdays(${rental_date_date},${returned_date_date}) ;;
+    sql: count_workdays(${rental_date}, ${returned_date}) ;;
   }
 }
