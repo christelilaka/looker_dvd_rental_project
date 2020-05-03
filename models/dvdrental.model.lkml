@@ -26,10 +26,22 @@ map_layer: us_canada_region {
 explore: pdt__map {}
 
 explore: customer {}
-explore: rental {}
+
+
+explore: rental {
+  sql_always_where:
+                  {% if rental.namesearch._is_filtered %}
+                      ${rental.filtered_name} = 'yes'
+                  {% else %}
+                      1=1
+                  {% endif %} ;;
+}
+
+
+
+
 
 explore: rental_payment {
-  always_filter: {filters: {field: rental.select_aggregation value: "count"}}
   from: payment
   join: rental {
     type: left_outer

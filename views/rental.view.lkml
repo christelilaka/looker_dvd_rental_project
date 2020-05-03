@@ -10,6 +10,7 @@ view: rental {
   }
 
   dimension: filtered_name {
+    hidden: yes
     type: yesno
     sql:
         {% assign my_array = namesearch._parameter_value | remove: "'" | split: "-"  %}
@@ -22,10 +23,6 @@ view: rental {
     type: number
     # hidden: yes
     sql: ${TABLE}."customer_id" ;;
-  }
-
-  filter: date_try {
-    type: date_time
   }
 
   dimension: rental_id {
@@ -78,35 +75,35 @@ view: rental {
     sql: ${TABLE}."rental_date" ;;
   }
 
-  filter: lexi_ticket {type: date sql: {% condition lexi_ticket %} ${rental_date} {% endcondition %} ;;}
-
-  dimension: zendesk {
-    type: yesno
-    sql: {% condition lexi_ticket %} ${rental_date} {% endcondition %} ;;
-  }
-
-  measure: count_lexi_ticket {
-    type: count
-    filters: [zendesk: "yes"]
-  }
+#   filter: lexi_ticket {type: date sql: {% condition lexi_ticket %} ${rental_date} {% endcondition %} ;;}
+#
+#   dimension: zendesk {
+#     type: yesno
+#     sql: {% condition lexi_ticket %} ${rental_date} {% endcondition %} ;;
+#   }
+#
+#   measure: count_lexi_ticket {
+#     type: count
+#     filters: [zendesk: "yes"]
+#   }
 
   #---- Added to Merge Dash ---------------
-  parameter: select_date_rental {
-    type: unquoted
-    allowed_value: {
-      label: "July"
-      value: "7"
-    }
-    allowed_value: {
-      label: "June"
-      value: "6"
-    }
-  }
-
-  dimension: is_parameter_okay {
-    type: yesno
-    sql: ${rental_month_num} = {% parameter select_date_rental %} ;;
-  }
+#   parameter: select_date_rental {
+#     type: unquoted
+#     allowed_value: {
+#       label: "July"
+#       value: "7"
+#     }
+#     allowed_value: {
+#       label: "June"
+#       value: "6"
+#     }
+#   }
+#
+#   dimension: is_parameter_okay {
+#     type: yesno
+#     sql: ${rental_month_num} = {% parameter select_date_rental %} ;;
+#   }
   #-------------------------------------
 
   dimension: min_date_test {
@@ -189,30 +186,30 @@ view: rental {
 
 # ---- Test March 15 (ticker: #288379) -----
 
-  parameter: select_aggregation {
-    type: string
-    allowed_value: {value: "count" label: "count" }
-    allowed_value: {value: "count_plus_ten" label: "Count plus 10"}
-  }
-
-  measure: count_plus_ten {
-    type: number
-    sql: ${count}+10 ;;
-  }
-
-
-  measure: final_aggregation {
-    type: number
-    sql:
-        {% if select_aggregation._parameter_value == "'count'" %}
-          ${count}*1
-        {% elsif select_aggregation._parameter_value == "'count_plus_ten'" %}
-          ${count_plus_ten}*1
-        {% else %}
-          ${count}*0
-        {% endif %}
-    ;;
-  }
+#   parameter: select_aggregation {
+#     type: string
+#     allowed_value: {value: "count" label: "count" }
+#     allowed_value: {value: "count_plus_ten" label: "Count plus 10"}
+#   }
+#
+#   measure: count_plus_ten {
+#     type: number
+#     sql: ${count}+10 ;;
+#   }
+#
+#
+#   measure: final_aggregation {
+#     type: number
+#     sql:
+#         {% if select_aggregation._parameter_value == "'count'" %}
+#           ${count}*1
+#         {% elsif select_aggregation._parameter_value == "'count_plus_ten'" %}
+#           ${count_plus_ten}*1
+#         {% else %}
+#           ${count}*0
+#         {% endif %}
+#     ;;
+#   }
 
   # ----- Sets of fields for drilling ------
 

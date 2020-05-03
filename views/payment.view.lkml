@@ -103,35 +103,35 @@ view: payment {
 
   # ---- Test March 15 (ticker: #288379) -----
 
-  # parameter: select_aggregation {
-  #   type: string
-  #   allowed_value: {value: "count" label: "count" }
-  #   allowed_value: {value: "count_plus_ten" label: "Count plus 10"}
-  # }
-
-  measure: count_plus_ten {
-    type: number
-    sql: ${count}+10 ;;
-  }
-
-  measure: final_aggregation {
-    type: number
-    sql:
-        CASE
-        WHEN {% parameter rental.select_aggregation %} = 'count' THEN
-          ${count}*1
-          WHEN {% parameter rental.select_aggregation %} = 'count_plus_ten' THEN
-          ${count_plus_ten}*1
-        ELSE
-          ${count}*0
-        END
-    ;;
-  }
-
-  # dimension: help_select {
-  #   type: string
-  #   sql: {% parameter select_aggregation %};;
-  # }
+#   parameter: select_aggregation {
+#     type: string
+#     allowed_value: {value: "count" label: "count" }
+#     allowed_value: {value: "count_plus_ten" label: "Count plus 10"}
+#   }
+#
+#   measure: count_plus_ten {
+#     type: number
+#     sql: ${count}+10 ;;
+#   }
+#
+#   measure: final_aggregation {
+#     type: number
+#     sql:
+#         CASE
+#         WHEN {% parameter rental.select_aggregation %} = 'count' THEN
+#           ${count}*1
+#           WHEN {% parameter rental.select_aggregation %} = 'count_plus_ten' THEN
+#           ${count_plus_ten}*1
+#         ELSE
+#           ${count}*0
+#         END
+#     ;;
+#   }
+#
+#   dimension: help_select {
+#     type: string
+#     sql: {% parameter select_aggregation %};;
+#   }
 
 
 
