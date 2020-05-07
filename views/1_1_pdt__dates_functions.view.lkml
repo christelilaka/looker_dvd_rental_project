@@ -28,8 +28,8 @@ view: dvd_rental {
           (SELECT 'Norma' AS customer_name,'2020-04-15' AS rental_date,'2020-04-20' AS returned_date
           UNION ALL SELECT 'Catherine','2020-04-01','2020-04-25'
           UNION ALL SELECT 'Cory','2020-04-10','2020-04-14'
-          UNION ALL SELECT 'Alexander','2020-04-20','2020-04-23'
-          UNION ALL SELECT 'Ella','2020-04-03','2020-04-08')
+          UNION ALL SELECT 'Alexander','2020-05-04','2020-05-12'
+          UNION ALL SELECT 'Ella','2020-05-03','2020-05-08')
         SELECT * FROM dvd_rental;;
   }
 
@@ -38,7 +38,7 @@ view: dvd_rental {
   dimension_group: rental {
     group_label: "Dates"
     type: time
-    timeframes: [date]
+    timeframes: [date, month]
     sql: ${TABLE}.rental_date::date ;;
   }
 

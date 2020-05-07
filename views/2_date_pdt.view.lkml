@@ -3,18 +3,14 @@ explore: 2_date_pdt {}
 view: 2_date_pdt {
   derived_table: {
     sql:
-
-                  CREATE FUNCTION pg_temp.f_inc(int)
-                  RETURNS int AS 'SELECT $1 + 1' LANGUAGE sql IMMUTABLE;
-
         WITH mytable(date,company,category,quantity) AS (
                 SELECT '2020-04-08' AS date,'ABC' AS company,'Egg' AS category,200 AS quantity
                 UNION ALL
-                SELECT '2020-04-09','ABC','Meat',205
+                SELECT '2020-05-03','ABC','Meat',205
                 UNION ALL
-                SELECT '2020-04-10','ABC','Fruit',210
+                SELECT '2020-05-04','ABC','Fruit',210
                 UNION ALL
-                SELECT '2020-04-11','ZZ','Egg',150
+                SELECT '2020-05-05','ZZ','Egg',150
                 UNION ALL
                 SELECT '2020-04-12','ZZ','Meat',155
                 UNION ALL
@@ -38,23 +34,23 @@ view: 2_date_pdt {
                 UNION ALL
                 SELECT '2020-04-06','ABC','Fruit',200
                 UNION ALL
-                SELECT '2020-04-05','ZZ','Egg',140
+                SELECT '2020-05-05','ZZ','Egg',140
                 UNION ALL
                 SELECT '2020-04-04','ZZ','Meat',145
                 UNION ALL
                 SELECT '2020-04-03','ZZ','Fruit',150
                 UNION ALL
-                SELECT '2020-04-02', 'ABC', 'Egg', 135
+                SELECT '2020-01-07', 'ABC', 'Egg', 135
                 UNION ALL
-                SELECT '2020-04-01', 'ABC', 'Meat', 140
+                SELECT '2020-01-01', 'ABC', 'Meat', 140
                 UNION ALL
-                SELECT '2019-01-01', 'ABC', 'Fruit', 145
+                SELECT '2019-12-23', 'ABC', 'Fruit', 145
                 UNION ALL
-                SELECT '2019-01-01', 'ZZ', 'Egg', 85
+                SELECT '2019-12-25', 'ZZ', 'Egg', 85
                 UNION ALL
-                SELECT '2019-01-01', 'ZZ', 'Meat', 90
+                SELECT '2019-12-26', 'ZZ', 'Meat', 90
                 UNION ALL
-                SELECT '2019-01-01', 'ZZ', 'Fruit', 95
+                SELECT '2019-12-29', 'ZZ', 'Fruit', 95
                 )
         SELECT * FROM mytable;;
   }
@@ -65,7 +61,7 @@ view: 2_date_pdt {
   dimension: quantity {}
   dimension_group: created_ {
     type: time
-    timeframes: [raw,date,year,month_num,month_name]
+    timeframes: [raw,date,year,month_num,month_name, week_of_year]
     sql: ${TABLE}.date::date ;;
   }
 

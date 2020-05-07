@@ -82,6 +82,19 @@ view: film {
     sql: ${TABLE}."rating" ;;
   }
 
+  dimension: is_pg_13 {
+    type: yesno
+    sql: ${rating}='PG-13' ;;
+  }
+
+  filter: only_pg_13 {
+    type: string
+    suggestions: ["PG-13", "Others"]
+    sql: CASE WHEN {% condition %} 'PG-13' {% endcondition %} THEN ${is_pg_13}='yes'
+        ELSE ${is_pg_13}='no' END
+    ;;
+  }
+
   dimension: release_year {
     type: number
     sql: ${TABLE}."release_year" ;;
