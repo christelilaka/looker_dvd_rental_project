@@ -83,14 +83,15 @@ view: film {
   }
 
   dimension: is_pg_13 {
+    hidden: yes
     type: yesno
     sql: ${rating}='PG-13' ;;
   }
 
   filter: only_pg_13 {
     type: string
-    suggestions: ["PG-13", "Others"]
-    sql: CASE WHEN {% condition %} 'PG-13' {% endcondition %} THEN ${is_pg_13}='yes'
+    suggestions: ["Show me only PG-13 data", "Display data - Except PG-13"]
+    sql: CASE WHEN {% condition %} 'Show me only PG-13 data' {% endcondition %} THEN ${is_pg_13}='yes'
         ELSE ${is_pg_13}='no' END
     ;;
   }

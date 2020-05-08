@@ -27,6 +27,14 @@ explore: pdt__map {}
 
 explore: customer {}
 
+explore: 5_pdt_top_customer {
+  join: customer {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${5_pdt_top_customer.customer_id}=${customer.customer_id} ;;
+  }
+}
+
 
 explore: rental {
   sql_always_where:

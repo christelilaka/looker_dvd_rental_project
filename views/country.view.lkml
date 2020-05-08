@@ -16,15 +16,7 @@ view: country {
 
   dimension_group: last_update {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+    timeframes: [raw,time,date,week,month,quarter,year]
     sql: ${TABLE}."last_update" ;;
   }
 

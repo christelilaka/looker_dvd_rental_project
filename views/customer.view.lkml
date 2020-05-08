@@ -15,9 +15,9 @@ view: customer {
   }
 
 
-
-
-
+  dimension: full_name {
+    sql: ${first_name} || ' ' || ${last_name} ;;
+  }
   dimension: active {
     type: number
     sql: ${TABLE}."active" ;;
