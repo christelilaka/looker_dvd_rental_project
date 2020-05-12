@@ -101,4 +101,9 @@ view: 2_date_pdt {
     sql: ${quantity} ;;
   }
 
+  measure: date_type {
+    type: date
+    sql: ${created__date} ;;
+  }
+
 }

@@ -59,20 +59,14 @@ explore: rental_payment {
 }
 
 
-
-
 explore: actor {
-  cancel_grouping_fields: [actor.last_name]
-  view_label: "Actor base"
-
-  join: ninja {
-    view_label: "Ninja two"
-    from: actor
-    relationship: one_to_one
-    type: left_outer
-    sql_on: ${actor.actor_id}=${ninja.actor_id} ;;
+  access_filter: {
+    field: actor.first_name
+    user_attribute: actor_first_name
   }
 }
+
+
 
 explore: payment {
   fields: [ALL_FIELDS*, -film_category.film_id, -film_category.category_id, -film_category.last_update_raw]
