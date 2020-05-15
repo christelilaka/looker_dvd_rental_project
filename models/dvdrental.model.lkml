@@ -28,6 +28,12 @@ explore: pdt__map {}
 explore: customer {}
 
 explore: 5_pdt_top_customer {
+  sql_always_where:
+                  {% if 5_pdt_top_customer.top_n._is_filtered %}
+                      ${5_pdt_top_customer.is_ranked} = 'yes'
+                  {% else %}
+                      1=1
+                  {% endif %};;
   join: customer {
     type: left_outer
     relationship: one_to_one
