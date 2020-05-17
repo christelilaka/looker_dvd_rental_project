@@ -38,7 +38,9 @@ view: 5_pdt_top_customer {
   }
 
   dimension: customer_id {}
+
   dimension: total_payment {}
+
   dimension: count_payment {}
 
   dimension: rank {

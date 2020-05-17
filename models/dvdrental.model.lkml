@@ -66,10 +66,6 @@ explore: rental_payment {
 
 
 explore: actor {
-  access_filter: {
-    field: actor.first_name
-    user_attribute: actor_first_name
-  }
 }
 
 
