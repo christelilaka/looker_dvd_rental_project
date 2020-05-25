@@ -27,6 +27,16 @@ view: category {
     sql: ${TABLE}."name" ;;
   }
 
+  #----- Filter Name for LookML Dashboard --- May 25------------
+  parameter: select_category_name {
+    type: string
+    allowed_value: {label: "All" value:"All"}
+    allowed_value: {label: "Sports" value:"Sports"}
+    allowed_value: {label: "Action" value:"Action"}
+  }
+
+  #--------------------------------------------------------------
+
   filter: filtered_category {
     type: string
   }

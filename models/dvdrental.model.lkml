@@ -2,11 +2,14 @@ connection: "postgres"
 
 # include all the views
 include: "/views/**/*.view"
+include: "/dashboards/*.dashboard.lookml"
 
 datagroup: dvd_cache {
   sql_trigger: SELECT CURRENT_DATE ;;
   max_cache_age: "5 minutes"
 }
+
+persist_with: dvd_cache
 
 datagroup: chat {
   sql_trigger: SELECT DATE_PART('day', NOW()) ;;
@@ -14,7 +17,19 @@ datagroup: chat {
 
 
 
-persist_with: dvd_cache
+explore: category {
+  sql_always_where:
+      {% if category.select_category_name._parameter_value == "'All'" %}
+        1=1
+      {% elsif category.select_category_name._in_query != true %}
+        1=1
+      {% else %}
+        ${name} = {{category.select_category_name._parameter_value}}
+      {% endif %}
+  ;;
+}
+
+
 
 #explore: actor {}
 
