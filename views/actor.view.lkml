@@ -4,20 +4,14 @@ view: actor {
   #drill_fields: [actor_id]
 
   dimension: actor_id {
-    #hidden: yes
+    hidden: yes
     primary_key: yes
     type: number
     sql: ${TABLE}."actor_id" ;;
   }
 
-  dimension: random {
-    type: number
-    sql: random() ;;
-    value_format_name: decimal_2
-  }
-
   dimension: first_name {
-    label: "{% if _view._name == 'actor' %} first_name {% else %} Ninja_first_name {% endif %} "
+    #label: "{% if _view._name == 'actor' %} First Name {% else %} First Name {% endif %}"
     type: string
     sql: ${TABLE}."first_name" ;;
     link: {
@@ -26,14 +20,15 @@ view: actor {
     }
   }
 
-
   dimension: last_name {
+    label: "{% if _view._name == 'actor' %} Last Name {% else %} Person Last Name {% endif %}"
     type: string
     sql: ${TABLE}."last_name" ;;
   }
 
 
   dimension: name_label {
+    hidden: yes
     type: string
     sql: CASE
               WHEN ${last_name} = 'Akroyd' THEN ' Label with space'
@@ -43,21 +38,14 @@ view: actor {
   }
 
   dimension: is_fName_in_last_name {
+    hidden: yes
     type: yesno
     sql: ${first_name} IN (SELECT ${last_name} FROM ${TABLE}) ;;
   }
 
   dimension_group: last_update {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+    timeframes: [raw, time,  date, week, month, quarter, year]
     sql: ${TABLE}."last_update" ;;
   }
 
@@ -67,35 +55,16 @@ view: actor {
     link: {label: "Drill down" url:"{{link}}&f[actor.last_name]=Pesci,Paltrow"}
   }
 
-  measure: count_2 {
-    type: number
-    value_format: "$#,##0"
-    link: {label:"test" url:"{{link}}"}
-    sql: 1 ;;
-
-  }
-
-  measure: total_labor_dollars {
-    type: number
-    value_format: "$#,##0"
-    link: {label: "Test" url: "{{link}}"}
-    sql: 1 ;;
-#     link: {
-#       label: "Total Labor by Punch Status"
-#       url: "{{link}}&fields=restaurants.name,time_punches.total_open_labor_dollars,time_punches.total_closed_labor_dollars,time_punches.total_future_labor_dollars"
-#     }
-#     link: {label: "Total Sales by Channel & Order Type" url: "{{link}}&fields=restaurants.name"}
-#     link:  {label: "Test" url: "{{link}}" }
-
-  }
 
 #--------- Liquid in filters ----------
 parameter: name_to_count {
+  hidden: yes
   type: unquoted
   allowed_value: {label: "Dan" value: "Dan"}
 }
 
 measure: count_names {
+  hidden: yes
   type: count
   #filters: [first_name: "{{name_to_count._parameter_value}}"]
   filters: [first_name: "{% parameter name_to_count %}"]

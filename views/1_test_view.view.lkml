@@ -8,7 +8,7 @@ view: pdt_case_when {
           SELECT 'Project / Engagement' AS name, 1 as total
           UNION ALL SELECT 'Order / Subscription', 0
           UNION ALL SELECT 'Other', 1
-          UNION ALL SELECT 'Missing', 1
+          UNION ALL SELECT '-Missing', 1
         )
         SELECT name, total FROM text_table
     ;;
@@ -84,21 +84,21 @@ view: pdt_feb_dates {
     indexes: ["dates"]
     persist_for: "360 hours"
     sql:
-        WITH mytable(dates) AS
-            (SELECT '2020-01-04 18:41:57' AS dates
-              UNION ALL SELECT '2020-01-09 11:34:38' UNION ALL SELECT '2020-02-03 00:25:42'
-              UNION ALL SELECT '2020-02-12 02:49:21' UNION ALL SELECT '2020-02-10 00:19:13'
-              UNION ALL SELECT '2020-01-19 05:28:34' UNION ALL SELECT '2020-02-12 16:44:05'
-              UNION ALL SELECT '2020-02-12 11:18:43' UNION ALL SELECT '2020-01-10 01:34:47'
-              UNION ALL SELECT '2020-01-07 03:39:07' UNION ALL SELECT '2020-01-20 16:27:14'
-              UNION ALL SELECT '2020-02-12 13:46:00' UNION ALL SELECT '2020-01-18 12:54:24'
-              UNION ALL SELECT '2020-01-07 11:01:36' UNION ALL SELECT '2020-01-12 20:16:51'
-              UNION ALL SELECT '2020-02-11 03:34:38' UNION ALL SELECT '2020-02-11 15:09:33'
-              UNION ALL SELECT '2020-02-12 23:51:46' UNION ALL SELECT '2020-02-11 22:13:09'
-              UNION ALL SELECT '2020-02-11 15:23:51' UNION ALL SELECT '2020-02-12 08:00:27'
-              UNION ALL SELECT '2020-02-11 09:41:30' UNION ALL SELECT '2020-02-11 09:52:50'
-              UNION ALL SELECT '2020-02-12 18:28:59' UNION ALL SELECT '2020-02-12 12:25:21')
-            SELECT dates from mytable
+        WITH mytable(dates, amount) AS
+            (SELECT '2020-01-04 18:41:57' AS dates, 7 AS amount
+              UNION ALL SELECT '2020-01-09 11:34:38', 2 UNION ALL SELECT '2020-02-03 00:25:42', 3
+              UNION ALL SELECT '2020-02-12 02:49:21', 4 UNION ALL SELECT '2020-02-10 00:19:13', 5
+              UNION ALL SELECT '2020-01-19 05:28:34', 6 UNION ALL SELECT '2020-02-12 16:44:05', 3
+              UNION ALL SELECT '2020-02-12 11:18:43', 3 UNION ALL SELECT '2020-01-10 01:34:47', 4
+              UNION ALL SELECT '2020-01-07 03:39:07', 5 UNION ALL SELECT '2020-01-20 16:27:14', 1
+              UNION ALL SELECT '2020-02-12 13:46:00', 1 UNION ALL SELECT '2020-01-18 12:54:24', 2
+              UNION ALL SELECT '2020-01-07 11:01:36', 7 UNION ALL SELECT '2020-01-12 20:16:51', 6
+              UNION ALL SELECT '2020-02-11 03:34:38', 3 UNION ALL SELECT '2020-02-11 15:09:33', 5
+              UNION ALL SELECT '2020-02-12 23:51:46', 2 UNION ALL SELECT '2020-02-11 22:13:09', 3
+              UNION ALL SELECT '2020-02-11 15:23:51', 4 UNION ALL SELECT '2020-02-12 08:00:27', 1
+              UNION ALL SELECT '2020-02-11 09:41:30', 3 UNION ALL SELECT '2020-02-11 09:52:50', 2
+              UNION ALL SELECT '2020-02-12 18:28:59', 6 UNION ALL SELECT '2020-02-12 12:25:21', 4)
+            SELECT dates, amount from mytable
     ;;
   }
   parameter: hours_filter {
@@ -111,10 +111,26 @@ view: pdt_feb_dates {
 
   dimension_group: dates {
     type: time
-    timeframes: [raw,date,hour_of_day,week,month, month_name]
-    sql: TO_TIMESTAMP(${TABLE}.dates, 'YYYY-MM-DD HH24:MI:SS');;}
+    timeframes: [raw,date,hour_of_day,week,month, month_name, time]
+    sql: TO_TIMESTAMP(${TABLE}.dates, 'YYYY-MM-DD HH24:MI:SS');;
+    }
+
+  dimension: date_timestamp {
+    type: date_time
+    sql: TO_TIMESTAMP(${TABLE}.dates, 'YYYY-MM-DD HH24:MI:SS');;
+  }
+
+  measure: total {
+    type: sum
+    sql: ${TABLE}.amount ;;
+  }
 
   dimension: string_dates {
     type: string
     sql: CAST(${TABLE}.dates AS VARCHAR) ;;}
+
+  dimension: image {
+    sql: 'iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAIAAAA7ljmRAAAAGElEQVQIW2P4DwcMDAxAfBvMAhEQMYgcACEHG8ELxtbPAAAAAElFTkSuQmCC' ;;
+    html: <img src="data:image/jpeg;base64,{{value}}" alt="Test" class="rounded float-right">;;
+  }
 }

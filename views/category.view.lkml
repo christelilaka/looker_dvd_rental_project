@@ -23,9 +23,11 @@ view: category {
   }
 
   dimension: name {
+    label: " Name"
     type: string
     sql: ${TABLE}."name" ;;
   }
+
 
   #----- Filter Name for LookML Dashboard --- May 25------------
   parameter: select_category_name {
@@ -37,11 +39,22 @@ view: category {
 
   #--------------------------------------------------------------
 
+  dimension: link_test {
+    type: string
+    sql: ${name};;
+    html: https://radius.video/advertisers/{{category.name._rendered_value}} ;;
+  }
+
+
+
+  # ----------------
+
   filter: filtered_category {
     type: string
   }
 
   dimension: selected_category {
+    label: " Selected Category"
     type: yesno
     sql:{% condition filtered_category %} ${name} {% endcondition %};;
   }

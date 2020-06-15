@@ -47,6 +47,7 @@ view: rental {
       raw,
       time,
       date,
+      day_of_week,
       week,
       month,
       week_of_year,
@@ -77,10 +78,10 @@ view: rental {
 
 #   filter: lexi_ticket {type: date sql: {% condition lexi_ticket %} ${rental_date} {% endcondition %} ;;}
 #
-#   dimension: zendesk {
-#     type: yesno
-#     sql: {% condition lexi_ticket %} ${rental_date} {% endcondition %} ;;
-#   }
+  # dimension: zendesk {
+  #   type: yesno
+  #   sql: {% condition lexi_ticket %} ${rental_date} {% endcondition %} ;;
+  # }
 #
 #   measure: count_lexi_ticket {
 #     type: count
@@ -163,16 +164,16 @@ view: rental {
 
   measure: count {
     type: count
-    drill_fields: [short*]
-  link: {label: "Drill with HTML" url:"{{link}}&f[staff.staff_id]=not+1&sorts=category.name+asc"}
-    html:
-    {% if value >= 6000 %}
-        <div style="background-color: #0b9353;color: white;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
-    {% elsif 1500 <= value < 6000 %}
-        <div style="background-color: #ede979;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
-    {% elsif value < 1500 %}
-        <div style="background-color: #ff9f80;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
-    {% endif %} ;;
+    drill_fields: [rental_date, count]
+  link: {label: "Drill with HTML" url:"{{link}}&sorts=category.name+asc"}
+#     html:
+#     {% if value >= 6000 %}
+#         <div style="background-color: #0b9353;color: white;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
+#     {% elsif 1500 <= value < 6000 %}
+#         <div style="background-color: #ede979;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
+#     {% elsif value < 1500 %}
+#         <div style="background-color: #ff9f80;color: black;font-size:100%; text-align:center"><a href="#drillmenu" target="_self">{{ rendered_value }}</a> </div>
+#     {% endif %} ;;
 
   }
 

@@ -71,6 +71,19 @@ explore: rental {
 
 
 explore: rental_payment {
+  # Aggregate-------------------------
+  aggregate_table: rollup__payment_date {
+    query: {
+      dimensions: [payment_date]
+      measures: [count, total_amount]
+      filters: [rental_payment.payment_date: "8 days ago for 5 days"]
+      timezone: "America/New_York"
+    }
+    materialization: {
+      datagroup_trigger: dvd_cache
+    }
+  }
+
   from: payment
   join: rental {
     type: left_outer
@@ -81,6 +94,12 @@ explore: rental_payment {
 
 
 explore: actor {
+  join: person {
+    from: actor
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${actor.actor_id} = ${person.actor_id} ;;
+  }
 }
 
 

@@ -172,8 +172,10 @@ view: payment {
 
 
   measure: regular_sum {
+    drill_fields: [rental_id, regular_sum]
     type: sum
-    sql: COALESCE(${amount},0) ;;
+    sql: ${amount} ;;
+    link: {label: "Drill" url:"{{link}}&f[payment.regular_sum]=%3E6"}
   }
 
   measure: type_number_sum {

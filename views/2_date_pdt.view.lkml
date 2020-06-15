@@ -44,7 +44,7 @@ view: 2_date_pdt {
                 UNION ALL
                 SELECT '2020-01-01', 'ABC', 'Meat', 140
                 UNION ALL
-                SELECT '2019-12-23', 'ABC', 'Fruit', 145
+                SELECT '2020-06-01', 'ABC', 'Fruit', 145
                 UNION ALL
                 SELECT '2019-12-25', 'ZZ', 'Egg', 85
                 UNION ALL
