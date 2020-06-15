@@ -21,6 +21,7 @@ view: pdt_case_when {
 #     }
 
   dimension: total {
+    label: "total"
     type: number
     sql:${TABLE}.total ;;
   }
