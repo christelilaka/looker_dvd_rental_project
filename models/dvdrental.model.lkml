@@ -16,18 +16,7 @@ datagroup: chat {
 }
 
 
-
-explore: category {
-  sql_always_where:
-      {% if category.select_category_name._parameter_value == "'All'" %}
-        1=1
-      {% elsif category.select_category_name._in_query != true %}
-        1=1
-      {% else %}
-        ${name} = {{category.select_category_name._parameter_value}}
-      {% endif %}
-  ;;
-}
+explore: category {}
 
 
 
