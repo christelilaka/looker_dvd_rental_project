@@ -1,5 +1,5 @@
 
-explore: test_view {}
+
 
 view: test_view {
   derived_table: {

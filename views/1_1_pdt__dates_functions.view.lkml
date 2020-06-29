@@ -3,7 +3,6 @@ explore: dvd_rental {}
 
 view: pdt_functions {
   derived_table: {
-    sql_trigger_value: SELECT 1 ;;
     create_process: {
       sql_step:
           CREATE OR REPLACE FUNCTION count_workdays(start_date DATE, end_date DATE)
