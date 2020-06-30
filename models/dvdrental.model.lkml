@@ -6,7 +6,7 @@ include: "/dashboards/*.dashboard.lookml"
 
 datagroup: dvd_cache {
   sql_trigger: SELECT CURRENT_DATE ;;
-  max_cache_age: "5 minutes"
+  max_cache_age: "24 minutes"
 }
 
 persist_with: dvd_cache
@@ -17,6 +17,21 @@ datagroup: chat {
 
 
 explore: category {}
+
+
+explore: a_orders_w_dates {
+  aggregate_table: christel_aggregate {
+    query: {
+      dimensions: [order_date]
+      measures: [count]
+      filters: [a_orders_w_dates.order_date: "8 days ago for 6 days"]
+      timezone: "America/New_York"
+    }
+    materialization: {
+      datagroup_trigger: dvd_cache
+    }
+  }
+}
 
 
 
